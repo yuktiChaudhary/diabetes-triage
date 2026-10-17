@@ -188,7 +188,7 @@ I've tested this locally too. We don't need to build our project's Docker image 
 
 ---
 
-## Project structure
+## Project structure is as follows:
 
 - `app/` — API code
 - `src/` — Shared Python code and dataset loader
@@ -200,4 +200,4 @@ I've tested this locally too. We don't need to build our project's Docker image 
 - `requirements.txt` — Shared package versions
 
 Some folders currently just contain `.gitkeep` placeholder files. We'll later add the actual code once we divide the work.
-  
+

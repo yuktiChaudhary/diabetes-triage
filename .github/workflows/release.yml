@@ -31,7 +31,14 @@ jobs:
           curl -f http://localhost:80/predict \
             -H "Content-Type: application/json" \
             -d '{"age":0.02,"sex":-0.044,"bmi":0.06,"bp":-0.03,"s1":-0.02,"s2":0.03,"s3":-0.02,"s4":0.02,"s5":0.02,"s6":-0.001}'
+          
+          # Check that missing features return HTTP 422
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST http://localhost:80/predict \
+            -H "Content-Type: application/json" \
+            -d '{"age":0.02,"sex":-0.044,"bmi":0.06,"bp":-0.03,"s1":-0.02,"s2":0.03,"s3":-0.02,"s4":0.02,"s5":0.02}')
 
+          test "$STATUS" = "422"
           docker stop test-container
 
       # Push to GHCR

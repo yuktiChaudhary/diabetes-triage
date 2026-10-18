@@ -13,4 +13,4 @@ __pycache__/
 # Git files
 .git
 .gitignore
-.github\workflow/
+.github/workflow/

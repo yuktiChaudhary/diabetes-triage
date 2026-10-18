@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      # Check the code before running the tests
+      - name: Ruff check
+        run: python -m ruff check .
+
+      - name: Ruff formatting
+        run: python -m ruff format --check .
+
+      - name: Train model
+        run: python -m src.train
+
+      - name: Run tests
+        run: python -m pytest -v
+
+      # Save the model and metrics from the training step
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: training-results
+          path: |
+            models/model_v0_1.joblib
+            metrics/metrics.json

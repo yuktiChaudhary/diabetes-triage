@@ -1,4 +1,3 @@
-
 import math
 
 from fastapi.testclient import TestClient
@@ -17,7 +16,7 @@ VALID_PAYLOAD = {
     "s3": -0.02,
     "s4": 0.02,
     "s5": 0.02,
-    "s6": -0.001
+    "s6": -0.001,
 }
 
 

@@ -1,5 +1,5 @@
-from sklearn.datasets import load_diabetes
 from pydantic import BaseModel, ConfigDict, Field
+from sklearn.datasets import load_diabetes
 
 Xy = load_diabetes(as_frame=True)
 

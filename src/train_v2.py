@@ -1,11 +1,10 @@
-import json
+# import json
 from pathlib import Path
 
-import joblib
-import numpy as np
+# import joblib
+# import numpy as np
+from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
 
 from src.data import X, y
 
@@ -22,25 +21,31 @@ def train_model():
         random_state=42,
     )
 
-    # TODO: Create the improved v0.2 model
+    # Create the improved v0.2 model using Ridge Regression
+    model = Ridge(alpha=0.1)
 
-    # TODO: Train the model
+    # Train the model
+    model.fit(X_train, y_train)
 
-    # TODO: Make predictions
-   
-
-    # TODO: Calculate RMSE
-
-
-    # TODO: Save the v0.2 model
+    # Return the trained model and test data for evaluation
+    return model, X_test, y_test
 
 
-    # TODO: Save v0.2 metrics
+# Alvaro's parts below
+def evaluate_and_save(model, X_test, y_test):
+    # TODO: Make predictions on the test data
 
-    # TODO: Compare the v0.2 RMSE with v0.1
+    # TODO: Calculate held-out RMSE
+
+    # TODO: Save the trained model to MODEL_PATH
+
+    # TODO: Save evaluation metrics to METRICS_PATH
+
+    # TODO: Compare v0.2 RMSE with v0.1 RMSE
 
     pass
 
 
 if __name__ == "__main__":
-    train_model()
+    model, X_test, y_test = train_model()
+    evaluate_and_save(model, X_test, y_test)

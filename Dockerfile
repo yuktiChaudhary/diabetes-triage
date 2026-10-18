@@ -1,19 +1,23 @@
 
 # Using a reasonable size Docker contanier
-FROM python: 3.12-slim
+FROM python:3.12-slim
 
 # Set the working directory inside the container
 WORKDIR /app
 
 # Install requirements for python 
-COPY requirements .txt .
-RUN pip install --no-cache-dir -r requirements.tt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy app code 
 COPY app/ ./app/
+# This is required because main.py imports DiabetesFeatures from src.data
+COPY src/ ./src/
 
 # Copy model files
-COPY artifacts/ ./artifacts/
+# COPY artifacts/ ./artifacts/ (This is wrong)
+# the trained model is saved under models/ and the API expects that path
+COPY models/ ./models/ 
 
 # API listens on port 80
 EXPOSE 80

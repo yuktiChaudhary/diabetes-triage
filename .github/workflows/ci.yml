@@ -1,3 +1,4 @@
+
 name: CI
 
 on:
@@ -18,7 +19,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install requirements
-        run: pip install -r requirements.txt
+        run: python -m pip install -r requirements.txt
 
       # Check the code before running the tests
       - name: Ruff check
@@ -27,17 +28,33 @@ jobs:
       - name: Ruff formatting
         run: python -m ruff format --check .
 
-      - name: Train model
+      # Train the baseline v0.1 model
+      - name: Train v0.1 model
         run: python -m src.train
 
+      # Run automated tests
       - name: Run tests
         run: python -m pytest -v
 
-      # Save the model and metrics from the training step
-      - name: Upload artifacts
+      # Save v0.1 training results
+      - name: Upload v0.1 artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: training-results
+          name: training-results-v0.1
           path: |
             models/model_v0_1.joblib
             metrics/metrics.json
+          if-no-files-found: error
+
+      # v0.2 integration (uncomment when da training is complete)
+      # - name: Train v0.2 model
+      #   run: python -m src.train_v2
+
+      # - name: Upload v0.2 artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: training-results-v0.2
+      #     path: |
+      #       models/model_v0_2.joblib
+      #       metrics/metrics_v0_2.json
+      #     if-no-files-found: error

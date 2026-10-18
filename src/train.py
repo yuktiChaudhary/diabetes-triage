@@ -39,7 +39,7 @@ def train_model():
     
     metrics = {
         "model_version": "v0.1",
-        "rmse": rmse
+        "rmse": f"{rmse:.4f}"
     }
     
     with open(METRICS_PATH, "w") as f:

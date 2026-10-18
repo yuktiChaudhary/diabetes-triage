@@ -10,7 +10,7 @@ from src.data import DiabetesFeatures
 MODEL_PATH = Path("models") / "model_v0_1.joblib"
 MODEL_VERSION = "v0.1"
 
-app = FastAPI(title="Virtual Diabetes Clinic Triage")
+app = FastAPI(title="Diabetes Clinic Triage")
 
 @app.get("/health")
 def health():

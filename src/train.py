@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import joblib
@@ -6,13 +7,11 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-import json
 
-
-from data import X, y
+from src.data import X, y
 
 MODEL_PATH = Path("models") / "model_v0_1.joblib"
-METRICS_PATH = Path("metrics")/"metrics.json"
+METRICS_PATH = Path("metrics") / "metrics.json"
 
 
 def train_model():
@@ -29,22 +28,25 @@ def train_model():
             ("regressor", LinearRegression()),
         ]
     )
-    
+
     model.fit(X_train, y_train)
     predictions = model.predict(X_test)
-    rmse = float(np.sqrt(np.mean((y_test - predictions) ** 2))) 
-    
+    rmse = float(np.sqrt(np.mean((y_test - predictions) ** 2)))
+
     MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(model, MODEL_PATH)
-    
+    # just to make sure the directory exists
+    METRICS_PATH.parent.mkdir(parents=True, exist_ok=True)
+
     metrics = {
         "model_version": "v0.1",
-        "rmse": f"{rmse:.4f}"
+        # "rmse": f"{rmse:.4f}" (We probably should not save it as a string)
+        "rmse": round(rmse, 4),
     }
-    
+
     with open(METRICS_PATH, "w") as f:
         json.dump(metrics, f, indent=4)
-    
+
     print("Model version: v0.1")
     print(f"RMSE: {rmse:.4f}")
     print(f"Saved model to {MODEL_PATH}")

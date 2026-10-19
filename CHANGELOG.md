@@ -22,10 +22,9 @@ This file documents changes between versions of the Virtual Diabetes Clinic Tria
 
 ### Verification
 - Model training completed successfully.
-- All 5 API tests passed.
+- All 5 v0.1 API tests passed locally.
 - Docker image built and ran successfully.
 - Health, prediction, and missing-feature validation endpoints were verified inside the running container.
-
 
 ## v0.2 — Improvement
 
@@ -46,3 +45,11 @@ This file documents changes between versions of the Virtual Diabetes Clinic Tria
 - L2 regularisation shrinks the coefficients, which helps with correlated predictors (the serum measurements `s1`-`s6`).
 - The held-out RMSE improves slightly (-0.41).
 - Other approaches we tried (RandomForest, PCA, other scalers) are listed in the README with their RMSE.
+
+### Verification
+- v0.2 training completed successfully and saved the model and evaluation metrics.
+- The v0.2 API test passed locally, covering five checks: model version, valid predictions, missing features, non-numeric inputs and extra features.
+- All 6 pytest tests passed locally (5 tests for v0.1 and 1 test containing 5 checks for v0.2).
+- Ruff linting and formatting checks passed.
+- The v0.2 Docker image built and ran successfully.
+- The health, prediction and missing-feature validation endpoints were verified inside the running v0.2 container.

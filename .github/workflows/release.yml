@@ -37,7 +37,9 @@ jobs:
             python -m src.train
 
           elif [ "$MODEL_VERSION" = "v0.2" ]; then
+            rm -f models/model_v0_1.joblib metrics/metrics.json
             rm -f models/model_v0_2.joblib metrics/metrics_v0_2.json
+            python -m src.train
             python -m src.train_v2
 
           else
@@ -50,18 +52,12 @@ jobs:
         env:
           MODEL_VERSION: ${{ github.ref_name }}
         run: |
-          set -e
-
           if [ "$MODEL_VERSION" = "v0.1" ]; then
             test -f models/model_v0_1.joblib
             test -f metrics/metrics.json
-
-          elif [ "$MODEL_VERSION" = "v0.2" ]; then
+          else
             test -f models/model_v0_2.joblib
             test -f metrics/metrics_v0_2.json
-
-          else
-            exit 1
           fi
 
       # Build Docker image with the correct model version
@@ -69,8 +65,7 @@ jobs:
         env:
           MODEL_VERSION: ${{ github.ref_name }}
         run: |
-          docker build \
-            --build-arg MODEL_VERSION="$MODEL_VERSION" \
+          docker build --build-arg MODEL_VERSION="$MODEL_VERSION" \
             -t "diabetes-triage:$MODEL_VERSION" .
 
       # Run and test the Docker container
@@ -90,7 +85,6 @@ jobs:
             fi
 
             if [ "$i" -eq 30 ]; then
-              echo "Container failed to start"
               docker logs test-container
               exit 1
             fi

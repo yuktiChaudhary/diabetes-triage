@@ -47,14 +47,14 @@ jobs:
           if-no-files-found: error
 
       # v0.2 integration (uncomment when da training is complete)
-      # - name: Train v0.2 model
-      #   run: python -m src.train_v2
+      - name: Train v0.2 model
+        run: python -m src.train_v2
 
-      # - name: Upload v0.2 artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: training-results-v0.2
-      #     path: |
-      #       models/model_v0_2.joblib
-      #       metrics/metrics_v0_2.json
-      #     if-no-files-found: error
+      - name: Upload v0.2 artifacts
+        uses: actions/upload-artifact@v4
+        with:
+           name: training-results-v0.2
+           path: |
+             models/model_v0_2.joblib
+             metrics/metrics_v0_2.json
+           if-no-files-found: error

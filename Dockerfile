@@ -18,6 +18,8 @@ COPY src/ ./src/
 # COPY artifacts/ ./artifacts/ (This is wrong)
 # the trained model is saved under models/ and the API expects that path
 COPY models/ ./models/ 
+ARG MODEL_VERSION=v0.1
+ENV MODEL_VERSION=${MODEL_VERSION}
 
 # API listens on port 80
 EXPOSE 80

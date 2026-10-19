@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import joblib
@@ -6,8 +7,8 @@ from fastapi import FastAPI, HTTPException
 
 from src.data import DiabetesFeatures
 
-MODEL_PATH = Path("models") / "model_v0_1.joblib"
-MODEL_VERSION = "v0.1"
+MODEL_VERSION = os.getenv("MODEL_VERSION", "v0.1")
+MODEL_PATH = Path("models") / f"model_{MODEL_VERSION.replace('.', '_')}.joblib"
 
 app = FastAPI(title="Diabetes Clinic Triage")
 

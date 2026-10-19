@@ -29,11 +29,19 @@ This file documents changes between versions of the Virtual Diabetes Clinic Tria
 
 ## v0.2 — Improvement
 
-- Model changes: ?
+   
 
-According to the assignment it can be improved by: 
+ ### What changed
+ - Model: `Ridge(alpha=0.1)` (L2-regularised linear regression) instead of `StandardScaler` + `LinearRegression`. No extra preprocessing: scikit-learn's diabetes features are already standardised.
+ - Same data, features and train/test split (`test_size=0.2`, `random_state=42`) as v0.1, so the comparison is fair.
+ - New training script `src/train_v2.py`; outputs `models/model_v0_2.joblib` and `metrics/metrics_v0_2.json`.
+ - The API loads the model matching the `MODEL_VERSION` environment variable, and the release workflow trains and publishes the model for the git tag.
 
-"try Ridge/RandomForestRegressor or better preprocessing (feature scaling/selection), plus calibration of the score if you convert to a “high-risk” flag (e.g., threshold on predicted progression)" 
-
+ ### Metrics (held-out test set)
+ | Version | Model | RMSE |
+ |---|---|---|
+ | v0.1 | StandardScaler + LinearRegression | 53.8534 |
+ | v0.2 | Ridge(alpha=0.1) | 53.4461 |
+ | Change | | -0.4073 (-0.76 %) |
 - RMSE: TBD
 - Improvement over v0.1: TBD

@@ -1,4 +1,4 @@
-#import json
+import json
 from pathlib import Path
 
 import joblib
@@ -10,6 +10,7 @@ from src.data import X, y
 
 MODEL_PATH = Path("models") / "model_v0_2.joblib"
 METRICS_PATH = Path("metrics") / "metrics_v0_2.json"
+V1_METRICS_PATH = Path("metrics") / "metrics.json"
 
 
 def train_model():
@@ -31,7 +32,7 @@ def train_model():
     return model, X_test, y_test
 
 
-# Alvaro's parts below
+
 def evaluate_and_save(model, X_test, y_test):
 
     # Make predictions on the held-out test set
@@ -46,12 +47,26 @@ def evaluate_and_save(model, X_test, y_test):
     MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(model, MODEL_PATH)
     print(f"Saved model to: {MODEL_PATH}")
-    
-    # TODO: Save evaluation metrics to METRICS_PATH
 
-    # TODO: Compare v0.2 RMSE with v0.1 RMSE
+    metrics = {"model_version": "v0.2", "rmse": round(rmse, 4)}
 
-    return {"model_version": "v0.2", "rmse": round(rmse, 4)}
+    # Compare v0.2 RMSE with v0.1 RMSE (if the v0.1 metrics file exists)
+    if V1_METRICS_PATH.exists():
+        v1_rmse = json.loads(V1_METRICS_PATH.read_text())["rmse"]
+        metrics["v0_1_rmse"] = v1_rmse
+        metrics["rmse_change_vs_v0_1"] = round(rmse - v1_rmse, 4)
+        print(f"v0.1 RMSE: {v1_rmse:.4f}")
+        print(f"Change vs v0.1: {rmse - v1_rmse:+.4f}")
+    else:
+        print("v0.1 metrics not found, skipping comparison")
+
+    # Save evaluation metrics to METRICS_PATH
+    METRICS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(METRICS_PATH, "w") as f:
+        json.dump(metrics, f, indent=4)
+
+    return metrics
+   
 
 
 if __name__ == "__main__":

@@ -32,7 +32,6 @@ def train_model():
     return model, X_test, y_test
 
 
-
 def evaluate_and_save(model, X_test, y_test):
 
     # Make predictions on the held-out test set
@@ -66,7 +65,6 @@ def evaluate_and_save(model, X_test, y_test):
         json.dump(metrics, f, indent=4)
 
     return metrics
-   
 
 
 if __name__ == "__main__":

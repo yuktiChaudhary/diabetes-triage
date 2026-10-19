@@ -1,8 +1,8 @@
-# import json
+#import json
 from pathlib import Path
 
-# import joblib
-# import numpy as np
+#import joblib
+import numpy as np
 from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
 
@@ -33,9 +33,14 @@ def train_model():
 
 # Alvaro's parts below
 def evaluate_and_save(model, X_test, y_test):
-    # TODO: Make predictions on the test data
 
-    # TODO: Calculate held-out RMSE
+    # Make predictions on the held-out test set
+    predictions = model.predict(X_test)
+
+    # Calculate held-out RMSE (same formula as v0.1)
+    rmse = float(np.sqrt(np.mean((y_test - predictions) ** 2)))
+    print("Model version: v0.2")
+    print(f"RMSE: {rmse:.4f}")
 
     # TODO: Save the trained model to MODEL_PATH
 
@@ -43,7 +48,7 @@ def evaluate_and_save(model, X_test, y_test):
 
     # TODO: Compare v0.2 RMSE with v0.1 RMSE
 
-    pass
+    return {"model_version": "v0.2", "rmse": round(rmse, 4)}
 
 
 if __name__ == "__main__":

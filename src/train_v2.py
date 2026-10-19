@@ -1,7 +1,7 @@
 #import json
 from pathlib import Path
 
-#import joblib
+import joblib
 import numpy as np
 from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
@@ -42,8 +42,11 @@ def evaluate_and_save(model, X_test, y_test):
     print("Model version: v0.2")
     print(f"RMSE: {rmse:.4f}")
 
-    # TODO: Save the trained model to MODEL_PATH
-
+    # Save the trained model to MODEL_PATH
+    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+    joblib.dump(model, MODEL_PATH)
+    print(f"Saved model to: {MODEL_PATH}")
+    
     # TODO: Save evaluation metrics to METRICS_PATH
 
     # TODO: Compare v0.2 RMSE with v0.1 RMSE
